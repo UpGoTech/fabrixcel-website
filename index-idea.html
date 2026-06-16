@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FabriXcel – Engineering the Future of Infrastructure</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Inter (clean, industrial sans-serif) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome (v6 free CDN) for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind config — extend with brand tokens -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            /* Deep Navy */
+            navy:   { DEFAULT: '#1a202c', light: '#2d3748', dark: '#111827' },
+            /* Steel Grey */
+            steel:  { DEFAULT: '#4a5568', light: '#718096', lighter: '#a0aec0' },
+            /* Construction Orange (accent) */
+            orange: { DEFAULT: '#e67e22', light: '#f39c12', dark: '#ca6f1e' },
+          },
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    /* Smooth anchor offset for sticky header */
+    html { scroll-padding-top: 72px; }
+
+    /* Counter animation helper — JS drives the value */
+    .counter { font-variant-numeric: tabular-nums; }
+
+    /* Custom underline accent */
+    .accent-underline {
+      position: relative;
+      display: inline-block;
+    }
+    .accent-underline::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -6px;
+      width: 56px; height: 4px;
+      background: #e67e22;
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body class="font-sans bg-white text-navy antialiased">
+
+<!-- =====================================================================
+     1. STICKY HEADER / NAVIGATION
+====================================================================== -->
+<header id="site-header"
+        class="fixed top-0 inset-x-0 z-50 bg-navy shadow-lg transition-all duration-300">
+  <div class="container mx-auto px-6 lg:px-12 flex items-center justify-between h-[72px]">
+
+    <!-- Logo -->
+    <a href="#home" class="flex items-center gap-2 shrink-0">
+      <!-- Steel-beam icon -->
+      <span class="flex items-center justify-center w-9 h-9 rounded bg-orange text-white font-black text-lg leading-none">
+        FX
+      </span>
+      <span class="text-white font-extrabold text-xl tracking-tight">
+        Fabri<span class="text-orange">Xcel</span>
+      </span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold">
+      <a href="#home"          class="text-steel-lighter hover:text-orange transition-colors">Home</a>
+      <a href="#who-we-are"    class="text-steel-lighter hover:text-orange transition-colors">Who We Are</a>
+
+      <!-- Solutions dropdown -->
+      <div class="relative group">
+        <button class="flex items-center gap-1 text-steel-lighter hover:text-orange transition-colors">
+          Solutions <i class="fa-solid fa-chevron-down text-xs mt-0.5"></i>
+        </button>
+        <div class="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-52 bg-white rounded-xl shadow-2xl
+                    opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200
+                    border border-gray-100 overflow-hidden">
+          <a href="#capabilities"
+             class="flex items-center gap-3 px-5 py-3 text-navy hover:bg-orange hover:text-white text-sm font-medium transition-colors">
+            <i class="fa-solid fa-drafting-compass w-4 text-center"></i> Design Engineering
+          </a>
+          <a href="#capabilities"
+             class="flex items-center gap-3 px-5 py-3 text-navy hover:bg-orange hover:text-white text-sm font-medium transition-colors border-t border-gray-100">
+            <i class="fa-solid fa-industry w-4 text-center"></i> Fabrication
+          </a>
+          <a href="#capabilities"
+             class="flex items-center gap-3 px-5 py-3 text-navy hover:bg-orange hover:text-white text-sm font-medium transition-colors border-t border-gray-100">
+            <i class="fa-solid fa-helmet-safety w-4 text-center"></i> Erection
+          </a>
+        </div>
+      </div>
+
+      <a href="#sectors"       class="text-steel-lighter hover:text-orange transition-colors">Sectors</a>
+      <a href="#contact"       class="text-steel-lighter hover:text-orange transition-colors">Contact</a>
+    </nav>
+
+    <!-- CTA button (desktop) -->
+    <a href="#contact"
+       class="hidden lg:inline-flex items-center gap-2 bg-orange hover:bg-orange-dark text-white
+              text-sm font-bold px-5 py-2.5 rounded-lg transition-colors shrink-0">
+      Request a Quote <i class="fa-solid fa-arrow-right text-xs"></i>
+    </a>
+
+    <!-- Mobile hamburger -->
+    <button id="menu-btn" class="lg:hidden text-white text-2xl focus:outline-none">
+      <i class="fa-solid fa-bars" id="menu-icon"></i>
+    </button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu"
+       class="lg:hidden hidden bg-navy-light border-t border-navy px-6 pb-6 pt-4 flex-col gap-4">
+    <a href="#home"         class="block text-steel-lighter hover:text-orange font-semibold py-1">Home</a>
+    <a href="#who-we-are"   class="block text-steel-lighter hover:text-orange font-semibold py-1">Who We Are</a>
+    <a href="#capabilities" class="block text-steel-lighter hover:text-orange font-semibold py-1 pl-4 border-l-2 border-orange">– Design Engineering</a>
+    <a href="#capabilities" class="block text-steel-lighter hover:text-orange font-semibold py-1 pl-4 border-l-2 border-orange">– Fabrication</a>
+    <a href="#capabilities" class="block text-steel-lighter hover:text-orange font-semibold py-1 pl-4 border-l-2 border-orange">– Erection</a>
+    <a href="#sectors"      class="block text-steel-lighter hover:text-orange font-semibold py-1">Sectors</a>
+    <a href="#contact"      class="block text-steel-lighter hover:text-orange font-semibold py-1">Contact</a>
+    <a href="#contact"
+       class="inline-flex items-center gap-2 bg-orange text-white font-bold px-5 py-2.5 rounded-lg w-fit mt-2">
+      Request a Quote <i class="fa-solid fa-arrow-right text-xs"></i>
+    </a>
+  </div>
+</header>
+
+
+<!-- =====================================================================
+     2. HERO SECTION
+====================================================================== -->
+<section id="home"
+         class="relative min-h-screen flex items-center justify-center overflow-hidden"
+         style="padding-top: 72px;">
+
+  <!-- Background: dark gradient overlay over a steel-structure placeholder -->
+  <div class="absolute inset-0 bg-gradient-to-br from-navy via-navy-light to-[#2d3748]"></div>
+
+  <!-- Decorative grid pattern overlay -->
+  <div class="absolute inset-0 opacity-10"
+       style="background-image: repeating-linear-gradient(0deg, #ffffff22 0px, #ffffff22 1px, transparent 1px, transparent 60px),
+                                repeating-linear-gradient(90deg, #ffffff22 0px, #ffffff22 1px, transparent 1px, transparent 60px);">
+  </div>
+
+  <!-- Decorative orange accent bar — left side -->
+  <div class="absolute left-0 top-0 h-full w-1.5 bg-gradient-to-b from-orange via-orange-light to-transparent"></div>
+
+  <!-- Hero content -->
+  <div class="relative z-10 container mx-auto px-6 lg:px-12 text-center lg:text-left max-w-6xl">
+    <div class="lg:max-w-3xl">
+
+      <!-- Tagline pill -->
+      <span class="inline-flex items-center gap-2 bg-orange/20 text-orange border border-orange/40
+                   text-xs font-bold tracking-widest uppercase px-4 py-1.5 rounded-full mb-6">
+        <i class="fa-solid fa-star text-[10px]"></i> Structural Steel Excellence Since 2005
+      </span>
+
+      <!-- Main heading -->
+      <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-tight mb-6">
+        Engineering the<br class="hidden sm:block" />
+        <span class="text-orange">Future of</span><br class="hidden sm:block" />
+        Infrastructure
+      </h1>
+
+      <!-- Sub-heading -->
+      <p class="text-steel-lighter text-lg sm:text-xl font-medium mb-10 max-w-xl leading-relaxed">
+        End-to-end structural steel solutions — from BIM design to precision fabrication
+        and on-site erection — delivered at scale across India and globally.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 items-center lg:items-start justify-center lg:justify-start">
+        <a href="#capabilities"
+           class="flex items-center gap-3 bg-orange hover:bg-orange-dark text-white font-bold
+                  text-base px-8 py-4 rounded-xl shadow-lg shadow-orange/30 transition-all
+                  hover:shadow-orange/50 hover:-translate-y-0.5">
+          <i class="fa-solid fa-layer-group"></i> Our Solutions
+        </a>
+        <a href="#contact"
+           class="flex items-center gap-3 bg-white/10 hover:bg-white/20 text-white font-bold
+                  text-base px-8 py-4 rounded-xl border border-white/20 transition-all">
+          <i class="fa-solid fa-phone"></i> Get in Touch
+        </a>
+      </div>
+
+      <!-- Quick trust badges -->
+      <div class="flex flex-wrap gap-6 mt-14 items-center justify-center lg:justify-start">
+        <div class="flex items-center gap-2 text-steel-lighter text-sm">
+          <i class="fa-solid fa-certificate text-orange"></i>
+          <span>ISO 9001:2015 Certified</span>
+        </div>
+        <div class="w-px h-4 bg-steel hidden sm:block"></div>
+        <div class="flex items-center gap-2 text-steel-lighter text-sm">
+          <i class="fa-solid fa-globe text-orange"></i>
+          <span>75+ Global Clients</span>
+        </div>
+        <div class="w-px h-4 bg-steel hidden sm:block"></div>
+        <div class="flex items-center gap-2 text-steel-lighter text-sm">
+          <i class="fa-solid fa-warehouse text-orange"></i>
+          <span>6+ Production Units</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-steel-lighter/60 text-xs animate-bounce">
+    <span class="tracking-widest uppercase">Scroll</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     3. WHO WE ARE
+====================================================================== -->
+<section id="who-we-are" class="py-24 bg-white">
+  <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+
+      <!-- Left: text content -->
+      <div>
+        <p class="text-orange font-bold text-sm tracking-widest uppercase mb-3">Who We Are</p>
+        <h2 class="text-3xl sm:text-4xl font-black text-navy mb-6 accent-underline">
+          India's Premier Structural Steel Partner
+        </h2>
+        <p class="text-steel text-base leading-relaxed mb-5">
+          FabriXcel is a leading integrated structural steel company providing comprehensive
+          engineering, fabrication, and erection services for India's most ambitious
+          infrastructure projects. With over two decades of industry expertise and a
+          portfolio spanning high-rises, airports, metros, and industrial complexes,
+          we deliver precision at every stage of the steel lifecycle.
+        </p>
+        <p class="text-steel text-base leading-relaxed mb-8">
+          Our vertically integrated model — anchored by cutting-edge BIM technology,
+          advanced CNC fabrication machinery, and a highly skilled erection workforce —
+          ensures seamless project delivery from concept to commissioning.
+        </p>
+
+        <!-- Values list -->
+        <ul class="space-y-3">
+          <li class="flex items-center gap-3 text-navy font-medium">
+            <span class="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-check text-orange text-xs"></i>
+            </span>
+            End-to-end project ownership — design through handover
+          </li>
+          <li class="flex items-center gap-3 text-navy font-medium">
+            <span class="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-check text-orange text-xs"></i>
+            </span>
+            Digital-first operations with real-time QR tracking
+          </li>
+          <li class="flex items-center gap-3 text-navy font-medium">
+            <span class="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-check text-orange text-xs"></i>
+            </span>
+            ISO 9001:2015, 14001:2015 & 45001:2018 certified
+          </li>
+          <li class="flex items-center gap-3 text-navy font-medium">
+            <span class="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-check text-orange text-xs"></i>
+            </span>
+            100,000+ MT annual fabrication capacity
+          </li>
+        </ul>
+      </div>
+
+      <!-- Right: illustrated card stack -->
+      <div class="relative">
+        <!-- Large background card -->
+        <div class="rounded-2xl bg-navy p-8 relative overflow-hidden shadow-2xl">
+          <!-- Decorative orange circle -->
+          <div class="absolute -top-12 -right-12 w-48 h-48 rounded-full bg-orange/10"></div>
+          <div class="absolute -bottom-8 -left-8 w-32 h-32 rounded-full bg-orange/5"></div>
+
+          <p class="text-orange font-bold text-xs tracking-widest uppercase mb-4">Our Journey</p>
+          <h3 class="text-white text-2xl font-black mb-6">Two Decades of Steel Mastery</h3>
+
+          <!-- Timeline items -->
+          <div class="space-y-5 relative z-10">
+            <div class="flex gap-4">
+              <div class="flex flex-col items-center">
+                <span class="w-8 h-8 rounded-full bg-orange text-white text-xs font-bold flex items-center justify-center shrink-0">05</span>
+                <div class="w-0.5 h-full bg-orange/20 mt-2"></div>
+              </div>
+              <div>
+                <p class="text-white font-bold">Founded in Hyderabad</p>
+                <p class="text-steel-lighter text-sm">Began operations with structural fabrication for industrial clients.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="flex flex-col items-center">
+                <span class="w-8 h-8 rounded-full bg-orange text-white text-xs font-bold flex items-center justify-center shrink-0">12</span>
+                <div class="w-0.5 h-full bg-orange/20 mt-2"></div>
+              </div>
+              <div>
+                <p class="text-white font-bold">BIM & Digital Integration</p>
+                <p class="text-steel-lighter text-sm">Adopted Tekla Structures & full BIM workflow across all projects.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <span class="w-8 h-8 rounded-full bg-orange text-white text-xs font-bold flex items-center justify-center shrink-0">20</span>
+              <div>
+                <p class="text-white font-bold">Global Footprint</p>
+                <p class="text-steel-lighter text-sm">Expanded to 6 production units, 75+ global clients &amp; 100K MT capacity.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     4. CORE CAPABILITIES (3-column grid)
+====================================================================== -->
+<section id="capabilities" class="py-24 bg-gray-50">
+  <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+
+    <!-- Section header -->
+    <div class="text-center mb-16">
+      <p class="text-orange font-bold text-sm tracking-widest uppercase mb-3">What We Do</p>
+      <h2 class="text-3xl sm:text-4xl font-black text-navy">Our Core Capabilities</h2>
+      <p class="text-steel mt-4 max-w-2xl mx-auto">
+        Three integrated service pillars that deliver complete structural steel solutions
+        — from digital design to the final bolt on-site.
+      </p>
+    </div>
+
+    <!-- 3-column capability cards -->
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- Capability 1: Design Engineering -->
+      <div class="group bg-white rounded-2xl p-8 shadow-sm border border-gray-100
+                  hover:shadow-xl hover:border-orange/30 transition-all duration-300 hover:-translate-y-1">
+        <div class="w-14 h-14 rounded-xl bg-orange/10 flex items-center justify-center mb-6
+                    group-hover:bg-orange transition-colors duration-300">
+          <i class="fa-solid fa-drafting-compass text-2xl text-orange group-hover:text-white transition-colors duration-300"></i>
+        </div>
+        <h3 class="text-navy text-xl font-black mb-3">Design Engineering</h3>
+        <p class="text-steel text-sm leading-relaxed mb-6">
+          Advanced BIM-enabled structural engineering using industry-leading platforms.
+          Our design team manages complete 3D modelling, clash detection, drawing production,
+          and material optimization — ensuring zero rework on-site.
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Tekla Structures & AutoCAD
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> BIM Level 2/3 Delivery
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Clash Detection (Navisworks)
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Shop Drawing Production
+          </li>
+        </ul>
+        <a href="#contact"
+           class="mt-8 flex items-center gap-2 text-orange font-bold text-sm hover:gap-3 transition-all">
+          Learn More <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+
+      <!-- Capability 2: Precision Fabrication -->
+      <div class="group bg-navy rounded-2xl p-8 shadow-xl
+                  hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+        <!-- Background glow -->
+        <div class="absolute inset-0 bg-gradient-to-br from-orange/10 to-transparent pointer-events-none"></div>
+
+        <div class="w-14 h-14 rounded-xl bg-orange flex items-center justify-center mb-6 relative z-10">
+          <i class="fa-solid fa-gear text-2xl text-white"></i>
+        </div>
+        <h3 class="text-white text-xl font-black mb-3 relative z-10">Precision Fabrication</h3>
+        <p class="text-steel-lighter text-sm leading-relaxed mb-6 relative z-10">
+          State-of-the-art CNC machinery and automated production lines across 6 strategic
+          fabrication units deliver accuracy down to the millimeter — at 100,000+ MT annual capacity.
+        </p>
+        <ul class="space-y-2 relative z-10">
+          <li class="flex items-center gap-2 text-sm text-white font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> CNC Plasma & Laser Cutting
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Automated Shot Blasting
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> QR-code Piece Tracking
+          </li>
+          <li class="flex items-center gap-2 text-sm text-white font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Third-party Quality Audit
+          </li>
+        </ul>
+        <a href="#contact"
+           class="mt-8 flex items-center gap-2 text-orange font-bold text-sm hover:gap-3 transition-all relative z-10">
+          Learn More <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+
+      <!-- Capability 3: On-site Erection -->
+      <div class="group bg-white rounded-2xl p-8 shadow-sm border border-gray-100
+                  hover:shadow-xl hover:border-orange/30 transition-all duration-300 hover:-translate-y-1">
+        <div class="w-14 h-14 rounded-xl bg-orange/10 flex items-center justify-center mb-6
+                    group-hover:bg-orange transition-colors duration-300">
+          <i class="fa-solid fa-helmet-safety text-2xl text-orange group-hover:text-white transition-colors duration-300"></i>
+        </div>
+        <h3 class="text-navy text-xl font-black mb-3">On-site Erection</h3>
+        <p class="text-steel text-sm leading-relaxed mb-6">
+          Expert erection crews equipped with modern lifting equipment execute complex
+          structural assemblies safely and on schedule — backed by rigorous HSE protocols
+          and daily digital progress reporting.
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Mobile & Tower Cranes
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> ISO 45001 HSE Standards
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> Digital Progress Dashboards
+          </li>
+          <li class="flex items-center gap-2 text-sm text-navy font-medium">
+            <i class="fa-solid fa-circle-check text-orange text-xs"></i> High-altitude Specialists
+          </li>
+        </ul>
+        <a href="#contact"
+           class="mt-8 flex items-center gap-2 text-orange font-bold text-sm hover:gap-3 transition-all">
+          Learn More <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     5. SECTORS SERVED
+====================================================================== -->
+<section id="sectors" class="py-24 bg-white">
+  <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+
+    <!-- Section header -->
+    <div class="text-center mb-16">
+      <p class="text-orange font-bold text-sm tracking-widest uppercase mb-3">Industries We Serve</p>
+      <h2 class="text-3xl sm:text-4xl font-black text-navy">Sectors of Expertise</h2>
+      <p class="text-steel mt-4 max-w-2xl mx-auto">
+        Our structural steel solutions span the most demanding and complex building
+        typologies across India and international markets.
+      </p>
+    </div>
+
+    <!-- Sector cards grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Sector: High-Rise Buildings -->
+      <div class="group relative rounded-2xl overflow-hidden border border-gray-100 shadow-sm
+                  hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <div class="p-6 pb-0">
+          <div class="w-12 h-12 rounded-xl bg-navy flex items-center justify-center mb-4
+                      group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-building text-xl text-white"></i>
+          </div>
+          <h3 class="text-navy text-lg font-black mb-2">High-Rise Buildings</h3>
+          <p class="text-steel text-sm leading-relaxed">
+            Landmark commercial towers and mixed-use skyscrapers with complex
+            transfer structures and composite deck systems.
+          </p>
+        </div>
+        <div class="p-6 pt-4">
+          <ul class="space-y-1 text-xs text-steel font-medium">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Commercial Towers</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Composite Deck Floors</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Transfer Trusses</li>
+          </ul>
+        </div>
+        <div class="h-1 w-full bg-gradient-to-r from-navy to-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </div>
+
+      <!-- Sector: Airports & Metros -->
+      <div class="group relative rounded-2xl overflow-hidden border border-gray-100 shadow-sm
+                  hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <div class="p-6 pb-0">
+          <div class="w-12 h-12 rounded-xl bg-navy flex items-center justify-center mb-4
+                      group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-plane-departure text-xl text-white"></i>
+          </div>
+          <h3 class="text-navy text-lg font-black mb-2">Airports & Metros</h3>
+          <p class="text-steel text-sm leading-relaxed">
+            Long-span roof structures, concourse canopies, and metro viaducts
+            demanding precision engineering and stringent tolerances.
+          </p>
+        </div>
+        <div class="p-6 pt-4">
+          <ul class="space-y-1 text-xs text-steel font-medium">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Terminal Roofing</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Metro Viaducts</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Canopy Structures</li>
+          </ul>
+        </div>
+        <div class="h-1 w-full bg-gradient-to-r from-navy to-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </div>
+
+      <!-- Sector: Industrial Infrastructure -->
+      <div class="group relative rounded-2xl overflow-hidden border border-gray-100 shadow-sm
+                  hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <div class="p-6 pb-0">
+          <div class="w-12 h-12 rounded-xl bg-navy flex items-center justify-center mb-4
+                      group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-industry text-xl text-white"></i>
+          </div>
+          <h3 class="text-navy text-lg font-black mb-2">Industrial Infrastructure</h3>
+          <p class="text-steel text-sm leading-relaxed">
+            Heavy industrial plants, process platforms, storage facilities, and
+            material handling structures built for reliability and longevity.
+          </p>
+        </div>
+        <div class="p-6 pt-4">
+          <ul class="space-y-1 text-xs text-steel font-medium">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Steel Plants & Refineries</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Warehouses & Logistics</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Process Platforms</li>
+          </ul>
+        </div>
+        <div class="h-1 w-full bg-gradient-to-r from-navy to-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </div>
+
+      <!-- Sector: Bridges -->
+      <div class="group relative rounded-2xl overflow-hidden border border-gray-100 shadow-sm
+                  hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white">
+        <div class="p-6 pb-0">
+          <div class="w-12 h-12 rounded-xl bg-navy flex items-center justify-center mb-4
+                      group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-bridge text-xl text-white"></i>
+          </div>
+          <h3 class="text-navy text-lg font-black mb-2">Bridges & Flyovers</h3>
+          <p class="text-steel text-sm leading-relaxed">
+            Steel girder bridges, pedestrian walkways, and expressway flyovers
+            engineered for dynamic loads and durability in extreme conditions.
+          </p>
+        </div>
+        <div class="p-6 pt-4">
+          <ul class="space-y-1 text-xs text-steel font-medium">
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Highway Bridges</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Foot-Overbridges (FOB)</li>
+            <li class="flex items-center gap-1.5"><i class="fa-solid fa-minus text-orange text-[8px]"></i> Railway Girders</li>
+          </ul>
+        </div>
+        <div class="h-1 w-full bg-gradient-to-r from-navy to-orange opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Extra sectors row (smaller pills) -->
+    <div class="mt-10 flex flex-wrap gap-3 justify-center">
+      <span class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-steel text-sm font-semibold px-4 py-2 rounded-full hover:border-orange hover:text-orange transition-colors cursor-default">
+        <i class="fa-solid fa-hospital text-orange text-xs"></i> Healthcare Facilities
+      </span>
+      <span class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-steel text-sm font-semibold px-4 py-2 rounded-full hover:border-orange hover:text-orange transition-colors cursor-default">
+        <i class="fa-solid fa-graduation-cap text-orange text-xs"></i> Educational Campuses
+      </span>
+      <span class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-steel text-sm font-semibold px-4 py-2 rounded-full hover:border-orange hover:text-orange transition-colors cursor-default">
+        <i class="fa-solid fa-solar-panel text-orange text-xs"></i> Renewable Energy
+      </span>
+      <span class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-steel text-sm font-semibold px-4 py-2 rounded-full hover:border-orange hover:text-orange transition-colors cursor-default">
+        <i class="fa-solid fa-ship text-orange text-xs"></i> Ports & Shipyards
+      </span>
+      <span class="inline-flex items-center gap-2 bg-gray-50 border border-gray-200 text-steel text-sm font-semibold px-4 py-2 rounded-full hover:border-orange hover:text-orange transition-colors cursor-default">
+        <i class="fa-solid fa-tower-cell text-orange text-xs"></i> Telecom Towers
+      </span>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     6. THE FABRIXCEL ADVANTAGE
+====================================================================== -->
+<section id="advantage" class="py-24 bg-navy relative overflow-hidden">
+
+  <!-- Background decorative circles -->
+  <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-orange/5 pointer-events-none"></div>
+  <div class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full bg-orange/5 pointer-events-none"></div>
+
+  <div class="container mx-auto px-6 lg:px-12 max-w-7xl relative z-10">
+
+    <!-- Section header -->
+    <div class="text-center mb-16">
+      <p class="text-orange font-bold text-sm tracking-widest uppercase mb-3">Why Choose Us</p>
+      <h2 class="text-3xl sm:text-4xl font-black text-white">The FabriXcel Advantage</h2>
+      <p class="text-steel-lighter mt-4 max-w-2xl mx-auto">
+        What makes us different isn't just what we build — it's how we build it.
+        Our integrated systems, certified processes, and digital-first approach
+        set the benchmark in structural steel.
+      </p>
+    </div>
+
+    <!-- Advantage grid -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Advantage 1 -->
+      <div class="bg-navy-light rounded-2xl p-7 border border-white/5 hover:border-orange/40 transition-all duration-300 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-orange/20 flex items-center justify-center shrink-0 group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-arrows-spin text-orange text-lg group-hover:text-white transition-colors duration-300"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">End-to-End Solutions</h3>
+            <p class="text-steel-lighter text-sm leading-relaxed">
+              Single-vendor accountability from structural design through fabrication, logistics,
+              and on-site erection — eliminating interface risk and reducing overall delivery time by up to 30%.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advantage 2 -->
+      <div class="bg-navy-light rounded-2xl p-7 border border-white/5 hover:border-orange/40 transition-all duration-300 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-orange/20 flex items-center justify-center shrink-0 group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-qrcode text-orange text-lg group-hover:text-white transition-colors duration-300"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">Digital QR Tracking</h3>
+            <p class="text-steel-lighter text-sm leading-relaxed">
+              Every fabricated steel piece is tagged with a unique QR code, enabling real-time
+              tracking from the production floor to site installation — full transparency, zero guesswork.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advantage 3 -->
+      <div class="bg-navy-light rounded-2xl p-7 border border-white/5 hover:border-orange/40 transition-all duration-300 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-orange/20 flex items-center justify-center shrink-0 group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-medal text-orange text-lg group-hover:text-white transition-colors duration-300"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">ISO Certified Quality</h3>
+            <p class="text-steel-lighter text-sm leading-relaxed">
+              Rigorous multi-stage quality control governed by ISO 9001:2015, supplemented by
+              third-party inspection, dimensional verification, and full material traceability records.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advantage 4 -->
+      <div class="bg-navy-light rounded-2xl p-7 border border-white/5 hover:border-orange/40 transition-all duration-300 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-orange/20 flex items-center justify-center shrink-0 group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-globe text-orange text-lg group-hover:text-white transition-colors duration-300"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">Global Reach</h3>
+            <p class="text-steel-lighter text-sm leading-relaxed">
+              Delivered projects across South Asia, the Middle East, and Africa, with an established
+              export logistics team managing international compliance and customs documentation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advantage 5 -->
+      <div class="bg-navy-light rounded-2xl p-7 border border-white/5 hover:border-orange/40 transition-all duration-300 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-orange/20 flex items-center justify-center shrink-0 group-hover:bg-orange transition-colors duration-300">
+            <i class="fa-solid fa-leaf text-orange text-lg group-hover:text-white transition-colors duration-300"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">Sustainable Practices</h3>
+            <p class="text-steel-lighter text-sm leading-relaxed">
+              ISO 14001:2015 certified environmental management system. We minimize waste through
+              optimised nesting software and actively recycle over 98% of steel scrap.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Advantage 6 -->
+      <div class="bg-orange rounded-2xl p-7 group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-people-group text-white text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-white font-black text-lg mb-2">Skilled Workforce</h3>
+            <p class="text-white/80 text-sm leading-relaxed">
+              2,000+ trained steel professionals — engineers, fabricators, welders (AWS/ASME
+              certified), and erection supervisors — backed by ongoing safety and skill development programs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     7. STATS / COUNTER SECTION
+====================================================================== -->
+<section id="stats" class="py-20 bg-orange">
+  <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+
+      <!-- Stat 1 -->
+      <div class="group">
+        <div class="text-4xl lg:text-5xl font-black text-white mb-2">
+          <span class="counter" data-target="100000" data-suffix="+ MT">0</span>
+        </div>
+        <p class="text-white/80 font-semibold text-sm uppercase tracking-wider">Annual Production</p>
+        <p class="text-white/60 text-xs mt-1">Fabrication Capacity</p>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="group">
+        <div class="text-4xl lg:text-5xl font-black text-white mb-2">
+          <span class="counter" data-target="6" data-suffix="+">0</span>
+        </div>
+        <p class="text-white/80 font-semibold text-sm uppercase tracking-wider">Production Units</p>
+        <p class="text-white/60 text-xs mt-1">Across India</p>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="group">
+        <div class="text-4xl lg:text-5xl font-black text-white mb-2">
+          <span class="counter" data-target="75" data-suffix="+">0</span>
+        </div>
+        <p class="text-white/80 font-semibold text-sm uppercase tracking-wider">Global Clients</p>
+        <p class="text-white/60 text-xs mt-1">Worldwide Portfolio</p>
+      </div>
+
+      <!-- Stat 4 -->
+      <div class="group">
+        <div class="text-4xl lg:text-5xl font-black text-white mb-2">
+          <span class="counter" data-target="20" data-suffix="+ Yrs">0</span>
+        </div>
+        <p class="text-white/80 font-semibold text-sm uppercase tracking-wider">Industry Experience</p>
+        <p class="text-white/60 text-xs mt-1">Since 2005</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     8. TESTIMONIALS / TRUST STRIP
+====================================================================== -->
+<section class="py-16 bg-gray-50 border-y border-gray-100">
+  <div class="container mx-auto px-6 lg:px-12 max-w-6xl">
+    <p class="text-center text-steel-lighter text-xs font-bold tracking-widest uppercase mb-8">
+      Trusted by industry leaders
+    </p>
+    <!-- Client logos placeholder strip -->
+    <div class="flex flex-wrap items-center justify-center gap-10 opacity-50 grayscale">
+      <span class="font-black text-2xl text-navy tracking-tight">L&amp;T</span>
+      <span class="font-black text-2xl text-navy tracking-tight">TATA Steel</span>
+      <span class="font-black text-2xl text-navy tracking-tight">NHAI</span>
+      <span class="font-black text-2xl text-navy tracking-tight">GMR Group</span>
+      <span class="font-black text-2xl text-navy tracking-tight">HPCL</span>
+      <span class="font-black text-2xl text-navy tracking-tight">IRCON</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- =====================================================================
+     9. CONTACT / FOOTER
+====================================================================== -->
+<footer id="contact" class="bg-navy">
+
+  <!-- "Request a Quote" form + info block -->
+  <div class="py-20 border-b border-white/10">
+    <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+      <div class="grid lg:grid-cols-2 gap-16 items-start">
+
+        <!-- Left: contact info -->
+        <div>
+          <p class="text-orange font-bold text-sm tracking-widest uppercase mb-3">Get in Touch</p>
+          <h2 class="text-3xl sm:text-4xl font-black text-white mb-6">
+            Let's Build Something<br class="hidden sm:block"/> Extraordinary
+          </h2>
+          <p class="text-steel-lighter leading-relaxed mb-10">
+            Ready to discuss your next structural steel project? Our engineering team is
+            on hand to provide feasibility assessments, timeline estimates, and detailed quotations.
+          </p>
+
+          <!-- Info blocks -->
+          <div class="space-y-5">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-orange/20 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-location-dot text-orange"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">Head Office</p>
+                <p class="text-steel-lighter text-sm">Plot No. 14, IDA Nacharam, Hyderabad – 500 076, Telangana, India</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-orange/20 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-phone text-orange"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">Phone</p>
+                <p class="text-steel-lighter text-sm">+91 40 1234 5678   |   +91 98765 43210</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-orange/20 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-envelope text-orange"></i>
+              </div>
+              <div>
+                <p class="text-white font-bold text-sm">Email</p>
+                <p class="text-steel-lighter text-sm">info@fabrixcel.com   |   projects@fabrixcel.com</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Social links -->
+          <div class="flex gap-3 mt-8">
+            <a href="#" aria-label="LinkedIn"
+               class="w-9 h-9 rounded-lg bg-white/10 hover:bg-orange flex items-center justify-center text-white transition-colors">
+              <i class="fa-brands fa-linkedin-in text-sm"></i>
+            </a>
+            <a href="#" aria-label="Twitter / X"
+               class="w-9 h-9 rounded-lg bg-white/10 hover:bg-orange flex items-center justify-center text-white transition-colors">
+              <i class="fa-brands fa-x-twitter text-sm"></i>
+            </a>
+            <a href="#" aria-label="YouTube"
+               class="w-9 h-9 rounded-lg bg-white/10 hover:bg-orange flex items-center justify-center text-white transition-colors">
+              <i class="fa-brands fa-youtube text-sm"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: quote form -->
+        <div class="bg-navy-light rounded-2xl p-8 border border-white/10">
+          <h3 class="text-white font-black text-xl mb-6">Request a Quote</h3>
+          <form id="quote-form" class="space-y-4" novalidate>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <!-- Name -->
+              <div>
+                <label for="name" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  Full Name *
+                </label>
+                <input id="name" name="name" type="text" required
+                       placeholder="John Doe"
+                       class="w-full bg-navy border border-white/10 text-white placeholder-steel
+                              rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange transition-colors" />
+              </div>
+              <!-- Company -->
+              <div>
+                <label for="company" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  Company
+                </label>
+                <input id="company" name="company" type="text"
+                       placeholder="Your Company Ltd."
+                       class="w-full bg-navy border border-white/10 text-white placeholder-steel
+                              rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange transition-colors" />
+              </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 gap-4">
+              <!-- Email -->
+              <div>
+                <label for="email" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  Email *
+                </label>
+                <input id="email" name="email" type="email" required
+                       placeholder="john@company.com"
+                       class="w-full bg-navy border border-white/10 text-white placeholder-steel
+                              rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange transition-colors" />
+              </div>
+              <!-- Phone -->
+              <div>
+                <label for="phone" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                  Phone
+                </label>
+                <input id="phone" name="phone" type="tel"
+                       placeholder="+91 98765 00000"
+                       class="w-full bg-navy border border-white/10 text-white placeholder-steel
+                              rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange transition-colors" />
+              </div>
+            </div>
+
+            <!-- Service required -->
+            <div>
+              <label for="service" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                Service Required *
+              </label>
+              <select id="service" name="service" required
+                      class="w-full bg-navy border border-white/10 text-white rounded-xl px-4 py-3 text-sm
+                             focus:outline-none focus:border-orange transition-colors appearance-none">
+                <option value="" disabled selected>Select a service…</option>
+                <option value="design">Design Engineering (BIM/Tekla)</option>
+                <option value="fabrication">Precision Fabrication</option>
+                <option value="erection">On-site Erection</option>
+                <option value="end-to-end">End-to-End Solution</option>
+              </select>
+            </div>
+
+            <!-- Message -->
+            <div>
+              <label for="message" class="block text-steel-lighter text-xs font-semibold uppercase tracking-wider mb-1.5">
+                Project Brief
+              </label>
+              <textarea id="message" name="message" rows="4"
+                        placeholder="Describe your project scope, tonnage estimate, and timeline…"
+                        class="w-full bg-navy border border-white/10 text-white placeholder-steel
+                               rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-orange
+                               transition-colors resize-none"></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit"
+                    class="w-full bg-orange hover:bg-orange-dark text-white font-bold py-3.5 rounded-xl
+                           transition-colors flex items-center justify-center gap-2 text-sm">
+              <i class="fa-solid fa-paper-plane"></i> Submit Request
+            </button>
+
+            <!-- Form success message (hidden by default) -->
+            <div id="form-success"
+                 class="hidden bg-green-500/20 border border-green-500/30 text-green-400
+                        rounded-xl px-4 py-3 text-sm text-center font-semibold">
+              <i class="fa-solid fa-circle-check mr-2"></i>
+              Thank you! We'll be in touch within 24 hours.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer bottom bar -->
+  <div class="py-10">
+    <div class="container mx-auto px-6 lg:px-12 max-w-7xl">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+        <!-- Brand column -->
+        <div class="lg:col-span-2">
+          <a href="#home" class="flex items-center gap-2 mb-4">
+            <span class="flex items-center justify-center w-9 h-9 rounded bg-orange text-white font-black text-lg">FX</span>
+            <span class="text-white font-extrabold text-xl">Fabri<span class="text-orange">Xcel</span></span>
+          </a>
+          <p class="text-steel-lighter text-sm leading-relaxed max-w-xs">
+            India's premier integrated structural steel company — engineering, fabricating,
+            and erecting tomorrow's infrastructure today.
+          </p>
+          <div class="flex flex-wrap gap-3 mt-5">
+            <span class="text-xs bg-white/5 border border-white/10 text-steel-lighter px-3 py-1 rounded-full">ISO 9001:2015</span>
+            <span class="text-xs bg-white/5 border border-white/10 text-steel-lighter px-3 py-1 rounded-full">ISO 14001:2015</span>
+            <span class="text-xs bg-white/5 border border-white/10 text-steel-lighter px-3 py-1 rounded-full">ISO 45001:2018</span>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="text-white font-black text-sm uppercase tracking-widest mb-4">Quick Links</h4>
+          <ul class="space-y-2">
+            <li><a href="#home"          class="text-steel-lighter hover:text-orange text-sm transition-colors">Home</a></li>
+            <li><a href="#who-we-are"    class="text-steel-lighter hover:text-orange text-sm transition-colors">Who We Are</a></li>
+            <li><a href="#capabilities"  class="text-steel-lighter hover:text-orange text-sm transition-colors">Capabilities</a></li>
+            <li><a href="#sectors"       class="text-steel-lighter hover:text-orange text-sm transition-colors">Sectors</a></li>
+            <li><a href="#advantage"     class="text-steel-lighter hover:text-orange text-sm transition-colors">Our Advantage</a></li>
+            <li><a href="#contact"       class="text-steel-lighter hover:text-orange text-sm transition-colors">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <h4 class="text-white font-black text-sm uppercase tracking-widest mb-4">Services</h4>
+          <ul class="space-y-2">
+            <li><a href="#capabilities" class="text-steel-lighter hover:text-orange text-sm transition-colors">Design Engineering</a></li>
+            <li><a href="#capabilities" class="text-steel-lighter hover:text-orange text-sm transition-colors">Steel Fabrication</a></li>
+            <li><a href="#capabilities" class="text-steel-lighter hover:text-orange text-sm transition-colors">On-site Erection</a></li>
+            <li><a href="#sectors"      class="text-steel-lighter hover:text-orange text-sm transition-colors">High-Rise Buildings</a></li>
+            <li><a href="#sectors"      class="text-steel-lighter hover:text-orange text-sm transition-colors">Airports & Metros</a></li>
+            <li><a href="#sectors"      class="text-steel-lighter hover:text-orange text-sm transition-colors">Bridges & Flyovers</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Divider + copyright -->
+      <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-steel text-xs">
+          &copy; 2026 FabriXcel Structural Solutions Pvt. Ltd. All rights reserved.
+        </p>
+        <div class="flex gap-6 text-xs text-steel">
+          <a href="#" class="hover:text-orange transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-orange transition-colors">Terms of Use</a>
+          <a href="#" class="hover:text-orange transition-colors">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- =====================================================================
+     JAVASCRIPT: Mobile menu toggle + Stats counter animation
+====================================================================== -->
+<script>
+  /* ── Mobile Menu Toggle ── */
+  const menuBtn  = document.getElementById('menu-btn');
+  const menuIcon = document.getElementById('menu-icon');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  menuBtn.addEventListener('click', () => {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', isOpen);
+    mobileMenu.classList.toggle('flex', !isOpen);
+    menuIcon.className = isOpen ? 'fa-solid fa-bars' : 'fa-solid fa-xmark';
+  });
+
+  // Close mobile menu when any nav link inside it is clicked
+  mobileMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu.classList.add('hidden');
+      mobileMenu.classList.remove('flex');
+      menuIcon.className = 'fa-solid fa-bars';
+    });
+  });
+
+  /* ── Stats Counter Animation ── */
+  const counters = document.querySelectorAll('.counter');
+
+  // Format large numbers with commas
+  function formatNumber(num) {
+    return num >= 1000 ? num.toLocaleString('en-IN') : num.toString();
+  }
+
+  // Animate a single counter element
+  function animateCounter(el) {
+    const target   = parseInt(el.dataset.target, 10);
+    const suffix   = el.dataset.suffix || '';
+    const duration = 2000; // ms
+    const steps    = 60;
+    const increment = target / steps;
+    let current = 0;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      current = Math.min(Math.round(increment * step), target);
+      el.textContent = formatNumber(current) + suffix;
+      if (step >= steps) clearInterval(timer);
+    }, duration / steps);
+  }
+
+  // Use IntersectionObserver so animation fires when stats section scrolls into view
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        counters.forEach(animateCounter);
+        statsObserver.disconnect(); // fire only once
+      }
+    });
+  }, { threshold: 0.4 });
+
+  const statsSection = document.getElementById('stats');
+  if (statsSection) statsObserver.observe(statsSection);
+
+  /* ── Quote Form Submission (client-side demo) ── */
+  const form = document.getElementById('quote-form');
+  const formSuccess = document.getElementById('form-success');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Basic required-field validation
+    const required = form.querySelectorAll('[required]');
+    let valid = true;
+    required.forEach(field => {
+      if (!field.value.trim()) {
+        field.classList.add('border-red-500');
+        valid = false;
+      } else {
+        field.classList.remove('border-red-500');
+      }
+    });
+    if (!valid) return;
+
+    // Simulate submission delay then show success
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Sending…';
+
+    setTimeout(() => {
+      form.reset();
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Submit Request';
+      formSuccess.classList.remove('hidden');
+      setTimeout(() => formSuccess.classList.add('hidden'), 5000);
+    }, 1500);
+  });
+
+  /* ── Sticky header shadow enhancement on scroll ── */
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header.classList.add('backdrop-blur-sm');
+    } else {
+      header.classList.remove('backdrop-blur-sm');
+    }
+  }, { passive: true });
+</script>
+
+</body>
+</html>
